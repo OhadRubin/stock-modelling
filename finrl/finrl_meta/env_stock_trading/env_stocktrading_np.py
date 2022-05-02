@@ -11,7 +11,7 @@ class StockTradingEnv(gym.Env):
         gamma=0.99,
         turbulence_thresh=99,
         min_stock_rate=0.1,
-        max_stock=30,
+        max_stock=10,
         initial_capital=1e6,
         buy_cost_pct=1e-3,
         sell_cost_pct=1e-3,
