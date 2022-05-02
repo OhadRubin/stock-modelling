@@ -1,2 +1,10 @@
+gym
 pandas 
 numpy
+json
+yfinance
+stockstats
+exchange_calendars
+pytz
+matplotlib
+pyfolio
