@@ -189,7 +189,7 @@ class StockTradingEnv(gym.Env):
         #     print('***********************************************************')
         #     # comment out later to
 
-        self.stocks_cool_down += 1
+#         self.stocks_cool_down += 1
 
         if self.turbulence_bool[self.day] == 0:
             min_action = int(self.max_stock * self.min_stock_rate)  # stock_cd
