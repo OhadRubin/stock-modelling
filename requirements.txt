@@ -1,7 +1,6 @@
 gym
 pandas 
 numpy
-json
 yfinance
 stockstats
 exchange_calendars
