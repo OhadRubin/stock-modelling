@@ -45,7 +45,7 @@ def get_portfolio_state(price_array, tech_array, turbulence_array, split_array, 
         }
         env_instance = StockTradingEnv(config_params=env_config)
         config.current_model_name = model_name
-        cwd = cwd + "./" + str(model_name)
+        cwd = cwd
         episode_total_assets, step_status = DRLAgent_sb3.DRL_prediction_load_from_file(
             model_name=model_name, environment=env_instance, cwd=cwd, status=status, live=True, status_bool=True
         )
@@ -62,12 +62,12 @@ def get_portfolio_state(price_array, tech_array, turbulence_array, split_array, 
     status['amount'] = env_instance.amount
 
 
-    # current_date = date.today()
-    # current_date = current_date.strftime("%Y-%m-%d")
-    # if current_date not in status:
-    #     status[current_date] = []
-
-    status.update(step_status)
+    current_date = date.today()
+    current_date = current_date.strftime("%Y-%m-%d")
+    if current_date not in status:
+        status[current_date] = []
+    status[current_date].append(step_status)
+    # status.update(step_status)
 
     print(status)
     with open('mydata.json', 'w') as f:
@@ -94,9 +94,9 @@ data = DP.clean_data(data)
 data = DP.add_technical_indicator(data, config.TECHNICAL_INDICATORS_LIST)
 data = DP.add_vix(data)
 data = DP.add_stock_split(data)
-price_array, tech_array, turbulence_array, split_array,txn_dates = DP.df_to_array(data, True)
-model_name = 'ddpg'
-cwd="./Nifty_50_stock_model_ddpg_full_data.zip"
+price_array, tech_array, turbulence_array, split_array, txn_dates = DP.df_to_array(data, True)
+model_name = 'sac'
+cwd="./Nifty_50_stock_model_sac_full_data.zip"
 get_portfolio_state(price_array, tech_array, turbulence_array, split_array, model_name, cwd )
 
 # curr_state = self.get_state(price_array, tech_array, turbulence_array)
