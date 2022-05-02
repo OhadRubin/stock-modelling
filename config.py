@@ -1,6 +1,6 @@
 
 # last 6 months kind of input
-training_phase = True
+training_phase = False
 comments_bool = False
 date_list = []
 START_DATE = "2010-02-17"
@@ -17,7 +17,7 @@ txn_date_lst = []
 action_info = {}
 # action_info = {'transaction_date':[], 'tic': [], 'share_price': [], 'model_name': [], 'action': [], 'no_of_shares_for_action': [], 'amount_for_action': [], 'balance_left': [], 'total_asset_value': [], 'return_ratio': [], 'total_no_of_shares':[]}
 current_model_name = ''
-model_alive = False
+model_alive = True
 # TRAIN_START_DATE = "2022-02-18"
 # TRAIN_END_DATE = "2022-02-28"
 #
