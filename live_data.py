@@ -3,7 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 import json
-
+import exchange_calendars as tc
 import config
 from DataProcessor import DataProcessor
 from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
@@ -76,28 +76,34 @@ def get_portfolio_state(price_array, tech_array, turbulence_array, split_array, 
 
 
 config.model_alive = True
+bse_calendar = tc.get_calendar("XBOM")
 today = date.today()
-yesterday = today - timedelta(days=3)
+
 # dd/mm/YY
-d1 = today.strftime("%Y-%m-%d")
-d2 = yesterday.strftime("%Y-%m-%d")
-print(d1)
-print(d2)
+end = today.strftime("%Y-%m-%d")
+if bse_calendar.is_session(end):
+    last_working_date = bse_calendar.previous_session(end)
+    start = last_working_date.strftime("%Y-%m-%d")
+    print(end)
+    print(start)
 
-DP = DataProcessor(data_source='yahoofinance')
-data = DP.download_data(start_date=d2,
-                        end_date=d1,
-                        ticker_list=config.TICKERS_LIST,
-                        time_interval='1d')
+    DP = DataProcessor(data_source='yahoofinance')
+    data = DP.download_data(start_date=start,
+                            end_date=end,
+                            ticker_list=config.TICKERS_LIST,
+                            time_interval='1d')
 
-data = DP.clean_data(data)
-data = DP.add_technical_indicator(data, config.TECHNICAL_INDICATORS_LIST)
-data = DP.add_vix(data)
-data = DP.add_stock_split(data)
-price_array, tech_array, turbulence_array, split_array, txn_dates = DP.df_to_array(data, True)
-model_name = 'sac'
-cwd="./Nifty_50_stock_model_sac_full_data.zip"
-get_portfolio_state(price_array, tech_array, turbulence_array, split_array, model_name, cwd )
+    data = DP.clean_data(data)
+    data = DP.add_technical_indicator(data, config.TECHNICAL_INDICATORS_LIST)
+    data = DP.add_vix(data)
+    data = DP.add_stock_split(data)
+    price_array, tech_array, turbulence_array, split_array, txn_dates = DP.df_to_array(data, True)
+    model_name = 'sac'
+    cwd="./Nifty_50_stock_model_sac_full_data.zip"
+    get_portfolio_state(price_array, tech_array, turbulence_array, split_array, model_name, cwd )
 
-# curr_state = self.get_state(price_array, tech_array, turbulence_array)
-# print(curr_state)
+    # curr_state = self.get_state(price_array, tech_array, turbulence_array)
+    # print(curr_state)
+
+else:
+    print("today is not a working day for the exchange")
