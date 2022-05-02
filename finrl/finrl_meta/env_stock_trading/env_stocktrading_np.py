@@ -84,7 +84,7 @@ class StockTradingEnv(gym.Env):
 
     def reset(self):
         self.day = 0
-        # self.txn_date = config.txn_date_lst[self.day]
+
         price = self.price_ary[self.day]
         if config.comments_bool:
             print("price array of day 0 is ", price)
@@ -134,23 +134,6 @@ class StockTradingEnv(gym.Env):
         if config.comments_bool:
             print("price array of day 0 is ", price)
 
-        # if self.if_train:
-        #     self.stocks = (
-        #         self.initial_stocks + rd.randint(10, 64, size=self.initial_stocks.shape)
-        #     ).astype(np.float32)
-        #     if config.comments_bool:
-        #         print("number of stocks at the beginning are ", self.stocks)
-        #     self.stocks_cool_down = np.zeros_like(self.stocks)
-        #     self.amount = (
-        #         self.initial_capital * rd.uniform(0.95, 1.05)
-        #         - (self.stocks * price).sum()
-        #     )
-        #     if config.comments_bool:
-        #         print("initial amount with us is ", self.amount)
-        # else:
-
-        # self.txn_date = config.txn_date_lst[self.day]
-
         self.stocks = status['stocks']
         if config.comments_bool:
             print("initial stocks ", self.stocks)
@@ -196,7 +179,8 @@ class StockTradingEnv(gym.Env):
             # comment out later to
 
         self.day += 1
-        txn_date_lst = config.txn_date_lst[self.day]
+        if not config.model_alive:
+            txn_date_lst = config.txn_date_lst[self.day]
         price = self.price_ary[self.day]
         # if config.comments_bool:
         #     # comment out later from
@@ -239,9 +223,10 @@ class StockTradingEnv(gym.Env):
                     if not self.if_train:
                         total_asset_val = self.amount + (self.stocks * price).sum()
 
-                        self.populate_action_history(txn_date_lst[index], config.TICKERS_LIST[index], config.sector[config.TICKERS_LIST[index]], round(price[index], 2), config.current_model_name, 'sell', sell_num_shares, round(amount_to_be_added, 2),
-                                                     round(self.amount, 2), total_asset_val, round(total_asset_val - self.total_asset, 2),
-                                                     self.stocks[index])
+                        if not config.model_alive:
+                            self.populate_action_history(txn_date_lst[index], config.TICKERS_LIST[index], config.sector[config.TICKERS_LIST[index]], round(price[index], 2), config.current_model_name, 'sell', sell_num_shares, round(amount_to_be_added, 2),
+                                                         round(self.amount, 2), total_asset_val, round(total_asset_val - self.total_asset, 2),
+                                                         self.stocks[index])
                     if config.model_alive:
                         if 'action' not in step_status:
                             step_status['action'] = []
@@ -283,11 +268,12 @@ class StockTradingEnv(gym.Env):
 
                     if not self.if_train:
                         total_asset_val = self.amount + (self.stocks * price).sum()
-                        self.populate_action_history(txn_date_lst[index], config.TICKERS_LIST[index], config.sector[config.TICKERS_LIST[index]],round(price[index], 2), config.current_model_name, 'buy',
-                                                     buy_num_shares, round(amount_to_be_deducted, 2),
-                                                     round(self.amount, 2), total_asset_val,
-                                                     round(total_asset_val - self.total_asset, 2),
-                                                     self.stocks[index])
+                        if not config.model_alive:
+                            self.populate_action_history(txn_date_lst[index], config.TICKERS_LIST[index], config.sector[config.TICKERS_LIST[index]],round(price[index], 2), config.current_model_name, 'buy',
+                                                         buy_num_shares, round(amount_to_be_deducted, 2),
+                                                         round(self.amount, 2), total_asset_val,
+                                                         round(total_asset_val - self.total_asset, 2),
+                                                         self.stocks[index])
                     if config.model_alive:
                         if 'action' not in step_status:
                             step_status['action'] = []
