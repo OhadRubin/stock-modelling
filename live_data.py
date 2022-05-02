@@ -94,7 +94,7 @@ data = DP.clean_data(data)
 data = DP.add_technical_indicator(data, config.TECHNICAL_INDICATORS_LIST)
 data = DP.add_vix(data)
 data = DP.add_stock_split(data)
-price_array, tech_array, turbulence_array, split_array = DP.df_to_array(data, True)
+price_array, tech_array, turbulence_array, split_array,txn_dates = DP.df_to_array(data, True)
 model_name = 'ddpg'
 cwd="./Nifty_50_stock_model_ddpg_recent_data.zip"
 get_portfolio_state(price_array, tech_array, turbulence_array, split_array, model_name, cwd )
