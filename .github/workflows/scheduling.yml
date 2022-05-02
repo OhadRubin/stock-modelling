@@ -22,14 +22,14 @@ jobs:
           pip install -r requirements.txt
       - name: Download today's data from NSE
         run: |
-          python corporate_actions_scrape.py
+          python live_data.py
       - name: Setup Github Config
         run: |
-          git config --global user.name "saikr789"
-          git config --global user.email "saikrishna.nama@msitprogram.net"
+          git config --global user.name "HarideepSriperumbooduru"
+          git config --global user.email "sriperumbooduri@msitprogram.net"
       - name: Commiting New Files
         run: |
           git pull origin master
-          git add Data/CorporateActions
+          git add --all
           git commit -m "`date +'%d-%m-%Y'`"
           git push origin master
