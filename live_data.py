@@ -14,7 +14,7 @@ import yfinance as yf
 
 
 def get_portfolio_state(price_array, tech_array, turbulence_array, split_array, model_name,cwd):
-    file_exists = os.path.exists('portfolio_status.json')
+    file_exists = os.path.exists('mydata.json')
     if not file_exists:
         status = {}
 
@@ -96,7 +96,7 @@ data = DP.add_vix(data)
 data = DP.add_stock_split(data)
 price_array, tech_array, turbulence_array, split_array,txn_dates = DP.df_to_array(data, True)
 model_name = 'ddpg'
-cwd="./Nifty_50_stock_model_ddpg_recent_data.zip"
+cwd="./Nifty_50_stock_model_ddpg_full_data.zip"
 get_portfolio_state(price_array, tech_array, turbulence_array, split_array, model_name, cwd )
 
 # curr_state = self.get_state(price_array, tech_array, turbulence_array)
