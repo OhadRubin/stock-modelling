@@ -12,7 +12,7 @@ from stable_baselines3.common.noise import (
 )
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-import config
+from finrl import config
 
 
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
