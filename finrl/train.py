@@ -1,4 +1,4 @@
-import config
+from finrl import config
 from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
 from DataProcessor import DataProcessor
 import pandas as pd
