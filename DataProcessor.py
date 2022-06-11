@@ -1,4 +1,4 @@
-import config as config
+from finrl import config
 import numpy as np
 import pandas as pd
 
