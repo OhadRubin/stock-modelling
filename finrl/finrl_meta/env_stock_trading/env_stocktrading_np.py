@@ -1,7 +1,7 @@
 import gym
 import numpy as np
 from numpy import random as rd
-import config
+from finrl import config
 import json
 class StockTradingEnv(gym.Env):
     def __init__(
