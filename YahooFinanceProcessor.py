@@ -7,7 +7,7 @@ from stockstats import StockDataFrame as Sdf
 import exchange_calendars as tc
 import pytz
 
-import config
+from finrl import config
 
 
 class YahooFinanceProcessor:
